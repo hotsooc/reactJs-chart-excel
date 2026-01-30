@@ -1,93 +1,79 @@
-import React, { useState, type ReactNode } from 'react';
-import { BarChartOutlined, HomeOutlined } from '@ant-design/icons';
+import React, { type ReactNode } from 'react';
+import { BarChartOutlined, HomeOutlined, MenuOutlined, SearchOutlined, ShoppingOutlined, UserOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Menu, Layout } from 'antd';
-import { Outlet, useNavigate, useLocation } from 'react-router';
-import Header from './Header';
+import { Layout, Dropdown } from 'antd';
+import { Outlet, useNavigate } from 'react-router';
+import Banner from './Banner';
+import { FooterSection } from './Footer';
 
-const { Content, Sider } = Layout;
-
-type MenuItem = Required<MenuProps>['items'][number];
-
-const items: MenuItem[] = [
-  { key: '/', icon: <HomeOutlined />, label: 'Trang chủ' },
-  {
-    key: 'sub1',
-    label: 'Tính năng',
-    icon: <BarChartOutlined />,
-    children: [
-      { key: '/python', label: 'Python' },
-      { key: '/powerbi', label: 'PowerBI'}
-    ],
-  },
-];
-
-const getLevelKeys = (items1: any[]) => {
-  const key: Record<string, number> = {};
-  const func = (items2: any[], level = 1) => {
-    items2.forEach((item) => {
-      if (item.key) key[item.key] = level;
-      if (item.children) func(item.children, level + 1);
-    });
-  };
-  func(items1);
-  return key;
-};
-
-const levelKeys = getLevelKeys(items);
+const { Content } = Layout;
 
 interface Props {
   children?: ReactNode;
 }
 
 const DefaultLayout: React.FC<Props> = ({ children }) => {
-  const [stateOpenKeys, setStateOpenKeys] = useState(['sub1']);
   const navigate = useNavigate();
-  const location = useLocation();
-  // const { token: { colorBgContainer, borderRadiusLG } } = theme.useToken();
 
-  const onOpenChange: MenuProps['onOpenChange'] = (openKeys) => {
-    const currentOpenKey = openKeys.find((key) => !stateOpenKeys.includes(key));
-    if (currentOpenKey !== undefined) {
-      const repeatIndex = openKeys
-        .filter((key) => key !== currentOpenKey)
-        .findIndex((key) => levelKeys[key] === levelKeys[currentOpenKey]);
-      setStateOpenKeys(
-        openKeys
-          .filter((_, index) => index !== repeatIndex)
-          .filter((key) => levelKeys[key] <= levelKeys[currentOpenKey]),
-      );
-    } else {
-      setStateOpenKeys(openKeys);
-    }
-  };
+  const menuItems: MenuProps['items'] = [
+    {
+      key: '/',
+      icon: <HomeOutlined />,
+      label: 'Trang chủ',
+      onClick: () => navigate('/'),
+    },
+    {
+      type: 'divider',
+    },
+    {
+      key: 'sub1',
+      label: 'Tính năng',
+      icon: <BarChartOutlined />,
+      children: [
+        { 
+          key: '/reactjs', 
+          label: 'React Js',
+          onClick: () => navigate('/reactjs') 
+        },
+        { 
+          key: '/powerbi', 
+          label: 'Power BI',
+          onClick: () => navigate('/powerbi') 
+        }
+      ],
+    },
+  ];
 
   return (
-    <Layout className='h-screen'>
-      <Sider width={256} theme="light" breakpoint="lg" collapsedWidth="0">
-        <div className='h-8 m-4 bg-[#f5f5f5] rounded-xl text-center leading-8 justify-center font-bold'>
-          POWER BI
-        </div>
-        <Menu
-          mode="inline"
-          selectedKeys={[location.pathname]}
-          openKeys={stateOpenKeys}
-          onOpenChange={onOpenChange}
-          className=''
-          items={items}
-          onClick={(e) => navigate(e.key)}
-        />
-      </Sider>
-      <Layout>
-        <Header />
-        <Content className='p-4'>
-          <div className='p-4 bg-white rounded-2xl min-h-[85vh]' 
+    <>
+      <div className="bg-[url('/image/image_1.png')] h-120 bg-cover bg-center flex items-center justify-center">
+        <div className="flex items-start justify-between w-full px-10">
+          <Dropdown 
+            menu={{ items: menuItems }} 
+            trigger={['click']} 
+            placement="bottomLeft"
           >
-            {children || <Outlet />}
+            <MenuOutlined className="text-white! text-[24px] cursor-pointer hover:opacity-80 transition-opacity" />
+          </Dropdown>
+          
+          <img src="/image/image_2.png" alt="logo" />
+          
+          <div className="flex gap-4">
+            <SearchOutlined className="text-white! text-[24px]" />
+            <ShoppingOutlined className="text-white! text-[24px]" />
+            <UserOutlined className="text-white! text-[24px]" />
           </div>
+        </div>
+      </div>
+
+      <Layout>
+        <Banner />
+        <Content>
+            {children || <Outlet />}
         </Content>
       </Layout>
-    </Layout>
+      <FooterSection />
+    </>
   );
 };
 

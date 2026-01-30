@@ -1,8 +1,13 @@
+import Introduce from "~/components/home/introduce";
+import Introduce2 from "~/components/home/introduce2";
+import Product from "~/components/home/product";
+
 export default function Home() {
   return (
-    <div>
-      <p className="text-css">Trang Chủ</p>
-      <p>Chào mừng bạn đến với hệ thống quản lý kế toán.</p>
-    </div>
+    <>
+      <Introduce />
+      <Introduce2 />
+      <Product />
+    </>
   );
 }

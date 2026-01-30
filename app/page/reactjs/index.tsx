@@ -7,7 +7,7 @@ import { Waterfall, Column, Area, Radar } from '@ant-design/plots';
 const { Dragger } = Upload;
 const { Title, Text } = Typography;
 
-export default function FeaturePage() {
+export default function ReactJs() {
   const { message } = App.useApp();
   const [data, setData] = useState<{
     summary: any[];
@@ -85,16 +85,16 @@ export default function FeaturePage() {
       <div className="flex justify-between items-center">
         <Title level={3} style={{ margin: 0 }}>📊 Dashboard Phân Tích Tổng Thể</Title>
         <Text type="secondary">Dữ liệu được trích xuất từ file Excel vừa tải</Text>
-      </div>
       <Button 
         type="primary" 
-        danger 
+        danger
         icon={<ReloadOutlined />} 
         onClick={() => setData(null)}
-        className='mb-4!'
+        className='flex! justify-center! items-center!'
       >
         Tải file khác
       </Button>
+      </div>
 
       <Row gutter={[16, 16]}>
         {data.summary.map((item: any, idx) => (

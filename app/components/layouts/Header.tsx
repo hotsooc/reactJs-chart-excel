@@ -1,8 +1,19 @@
+import { MenuOutlined, SearchOutlined, ShoppingOutlined, UserOutlined } from "@ant-design/icons";
 
 export default function Header() {
   return (
-    <div className="flex items-center h-10 justify-center pt-10 pb-5 bg-white">
-      <p className="text-[24px] font-bold text-[#5F5D51]">Thống kê số liệu kế toán (Power BI)</p>
-    </div>
+    <>
+      <div className="bg-[url('/image/image_1.png')] h-120 bg-cover bg-center flex items-center justify-center">
+        <div className="flex items-start justify-between w-full px-10">
+          <MenuOutlined className="text-white! text-[24px]" />
+          <img src="/image/image_2.png" />
+          <div className="flex gap-4">
+            <SearchOutlined className="text-white! text-[24px]" />
+            <ShoppingOutlined className="text-white! text-[24px]" />
+            <UserOutlined className="text-white! text-[24px]" />
+          </div>
+        </div>
+      </div>
+    </>
   )
 }
